@@ -1,0 +1,16 @@
+{
+  "name": "gpv2poc",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ gabrielcamba/gpv2poc",
+    "create-local": "graph create --node http://localhost:8020/ gabrielcamba/gpv2poc",
+    "remove-local": "graph remove --node http://localhost:8020/ gabrielcamba/gpv2poc",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 gabrielcamba/gpv2poc"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.25.0",
+    "@graphprotocol/graph-ts": "0.24.1"
+  }
+}
