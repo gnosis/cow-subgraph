@@ -277,7 +277,7 @@
         ],
         "internalType": "struct GPv2Interaction.Data[][3]",
         "name": "interactions",
-        "type": "tuple[][3]"
+        "type": "tuple[]"
       }
     ],
     "name": "settle",

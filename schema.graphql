@@ -1,6 +1,34 @@
-type ExampleEntity @entity {
+type User @entity {
   id: ID!
-  count: BigInt!
-  target: Bytes! # address
-  value: BigInt! # uint256
+  address: Bytes!
+  firstTradeTimestamp: BigInt!
+  ordersPlaced: [Order!]! @derivedFrom(field: "owner")
+}
+
+type Token @entity {
+  id: ID!
+  address: Bytes!
+  firstTradeTimestamp: BigInt!
+  name: String!
+  symbol: String!
+  decimals: Int!
+}
+
+type Order @entity {
+  id: ID!
+  owner: User!
+  timestamp: BigInt!
+  trades: [Trade!]! @derivedFrom(field: "order")
+  isValid: Boolean!
+}
+
+type Trade @entity {
+  id: ID!
+  timestamp: BigInt!
+  txHash: Bytes!
+  buyAmount: BigInt!
+  sellAmount: BigInt!
+  sellToken: Token!
+  buyToken: Token!
+  order: Order!
 }

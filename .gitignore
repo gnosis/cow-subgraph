@@ -1,0 +1,5 @@
+# Ignore truffle stuff
+build/
+*.log
+generated/
+node_modules/
