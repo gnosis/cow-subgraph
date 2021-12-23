@@ -16,11 +16,10 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - Interaction
-        - OrderInvalidated
-        - PreSignature
-        - Settlement
         - Trade
+        - Token
+        - Order
+        - User
       abis:
         - name: GPV2Settlement
           file: ./abis/GPV2Settlement.json
