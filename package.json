@@ -4,7 +4,8 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ gnosis/cow"
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ gnosis/cow",
+    "deploy:dev": "graph deploy --node https://api.thegraph.com/deploy/ <YourGithubUser/YourSubgraph>"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.25.0",
