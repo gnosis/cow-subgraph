@@ -42,6 +42,10 @@ type Trade @entity {
   id: ID!
   "Block's timestamp"
   timestamp: BigInt!
+  "Transaction's gas price"
+  gasPrice: BigInt!
+  "Transaction's gas limit"
+  gasLimit: BigInt!
   "Trade event transaction hash"
   txHash: Bytes!
   "Trade event buyAmount"

@@ -13,6 +13,8 @@ export namespace trades {
         let timestamp = event.block.timestamp
         let sellAmount = event.params.sellAmount
         let buyAmount = event.params.buyAmount
+        let txGasPrice = event.transaction.gasPrice
+        let txGasLimit = event.transaction.gasLimit
 
         let trade = TradeEntity.load(tradeId)
 
@@ -27,6 +29,8 @@ export namespace trades {
         trade.sellToken = sellToken.id
         trade.sellAmount = sellAmount
         trade.order = orderId
+        trade.gasPrice = txGasPrice
+        trade.gasLimit = txGasLimit
         trade.save()
     }
 

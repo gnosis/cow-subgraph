@@ -11,7 +11,7 @@ export namespace orders {
 
         if (!order) {
             order = new Order(orderId)
-            log.critical('Order {} was not found. It was created for being invalidated', [orderId])
+            log.warning('Order {} was not found. It was created for being invalidated', [orderId])
         }
 
         order.isValid = false
