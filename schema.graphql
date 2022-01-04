@@ -59,3 +59,16 @@ type Trade @entity {
   "Order"
   order: Order!
 }
+
+type Debug @entity {
+  "This id is composed using txhash|eventIndex"
+  id: ID!
+  "Transaction hash to log"
+  txHash: Bytes!
+  "Event index"
+  eventIndex: BigInt!
+  "Block timestamp"
+  timestamp: BigInt!
+  "Message to log"
+  message: String!
+}

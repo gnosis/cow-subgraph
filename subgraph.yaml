@@ -20,6 +20,7 @@ dataSources:
         - Token
         - Order
         - User
+        - Debug
       abis:
         - name: GPV2Settlement
           file: ./abis/GPV2Settlement.json

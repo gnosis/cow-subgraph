@@ -11,7 +11,7 @@ export function handleInteraction(event: Interaction): void {}
 
 export function handleOrderInvalidated(event: OrderInvalidated): void {
   let orderId = event.params.orderUid.toHexString()
-  orders.invalidateOrder(orderId)
+  orders.invalidateOrder(orderId, event)
 }
 
 export function handlePreSignature(event: PreSignature): void {}
