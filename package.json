@@ -4,8 +4,10 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ gnosis/cow",
-    "deploy:dev": "graph deploy --node https://api.thegraph.com/deploy/ <YourGithubUser/YourSubgraph>"
+    "deploy": "graph deploy gnosis/cow --node https://api.thegraph.com/deploy/",
+    "deploy:rinkeby": "graph deploy gnosis/cow-rinkeby subgraph.rinkeby.yaml --node https://api.thegraph.com/deploy/",
+    "deploy:xdai": "graph deploy gabrielcamba/something subgraph.xdai.yaml --node https://api.thegraph.com/deploy/",
+    "deploy:dev": "graph deploy <YourGithubUser/YourSubgraph> --node https://api.thegraph.com/deploy/"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.25.0",
