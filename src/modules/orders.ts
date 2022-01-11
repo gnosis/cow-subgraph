@@ -7,7 +7,12 @@ export namespace orders {
 
     export function invalidateOrder(orderId: string, timestamp: BigInt): Order {
 
-        let order = getOrCreateOrder(orderId)
+        let order = Order.load(orderId)
+
+        if (!order) {
+            order = new Order(orderId)
+            log.info('Order {} was not found. It was created for being invalidated', [orderId])
+        }
 
         order.isValid = false
         order.invalidateTimestamp = timestamp
@@ -15,29 +20,25 @@ export namespace orders {
         return order as Order
     }
 
-    export function preSig(orderId: string, user: string, isPresigned: boolean, timestamp: BigInt): Order {
+    export function preSig(orderId: string, owner: string, isPresigned: boolean, timestamp: BigInt): Order {
 
-        let order = getOrCreateOrder(orderId)
+        let order = getOrCreateOrder(orderId, owner)
 
         order.presignTimestamp = timestamp
         order.isPresigned = isPresigned
-
-        order.presignUser = user
 
         return order as Order
     }
 
     export function getOrCreateOrderForTrade(orderId: string, timestamp: BigInt, owner: string): Order {
 
-        let order = getOrCreateOrder(orderId)
+        let order = getOrCreateOrder(orderId, owner)
         order.tradesTimestamp = timestamp
-
-        order.tradesOwner = owner
 
         return order as Order
     }
 
-    function getOrCreateOrder(orderId: string): Order {
+    function getOrCreateOrder(orderId: string, owner: string): Order {
 
         let order = Order.load(orderId)
 
@@ -46,6 +47,8 @@ export namespace orders {
             order.isValid = true
             order.isPresigned = false
         } 
+
+        order.owner = owner
 
         return order as Order
     }

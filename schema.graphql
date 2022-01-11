@@ -5,10 +5,8 @@ type User @entity {
   address: Bytes!
   "First trade block timestamp"
   firstTradeTimestamp: BigInt!
-  "List of orders placed by this user for trade"
-  ordersPlacedForTrade: [Order!]! @derivedFrom(field: "tradesOwner")
-  "List of orders placed by this user for presign"
-  ordersPlacedForPresign: [Order!]! @derivedFrom(field: "presignUser")
+  "List of orders placed by this user"
+  ordersPlaced: [Order!]! @derivedFrom(field: "owner")
 }
 
 type Token @entity {
@@ -29,10 +27,8 @@ type Token @entity {
 type Order @entity {
   "Trade's OrderUid to hex string"
   id: ID!
-  "Trade's owner"
-  tradesOwner: User
-  "Presign User"
-  presignUser: User
+  "Trade's owner or presign User"
+  owner: User
   "block's timestamp on trade event"
   tradesTimestamp: BigInt
   "block's timestamp on invalidate event"
