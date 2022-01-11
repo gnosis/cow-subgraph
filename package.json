@@ -4,13 +4,18 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy gnosis/cow --node https://api.thegraph.com/deploy/",
-    "deploy:rinkeby": "graph deploy gnosis/cow-rinkeby subgraph.rinkeby.yaml --node https://api.thegraph.com/deploy/",
-    "deploy:xdai": "graph deploy gabrielcamba/something subgraph.xdai.yaml --node https://api.thegraph.com/deploy/",
-    "deploy:dev": "graph deploy <YourGithubUser/YourSubgraph> --node https://api.thegraph.com/deploy/"
+    "prepare:mainnet": "mustache config/mainnet.json subgraph.yaml.mustache > subgraph.yaml",
+    "prepare:rinkeby": "mustache config/rinkeby.json subgraph.yaml.mustache > subgraph.yaml",
+    "prepare:gc": "mustache config/gc.json subgraph.yaml.mustache > subgraph.yaml",
+    "deploy": "yarn deploy:mainnet",
+    "deploy:mainnet": "yarn prepare:mainnet && yarn codegen && graph deploy gnosis/cow --node https://api.thegraph.com/deploy/",
+    "deploy:rinkeby": "yarn prepare:rinkeby && yarn codegen && graph deploy gnosis/cow-rinkeby --node https://api.thegraph.com/deploy/",
+    "deploy:gc": "yarn prepare:gc && yarn codegen && graph deploy gnosis/cow-gc --node https://api.thegraph.com/deploy/",
+    "deploy:dev": "yarn prepare:<Network> && yarn codegen && graph <YourGithubUser/YourSubgraph> --node https://api.thegraph.com/deploy/"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.25.0",
-    "@graphprotocol/graph-ts": "0.24.1"
+    "@graphprotocol/graph-ts": "0.24.1",
+    "mustache": "^4.2.0"
   }
 }
