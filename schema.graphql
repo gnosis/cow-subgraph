@@ -50,6 +50,8 @@ type Trade @entity {
   feeAmount: BigInt! 
   "Trade event transaction hash"
   txHash: Bytes!
+  "Settlement"
+  settlement: Settlement!
   "Trade event buyAmount"
   buyAmount: BigInt!
   "Trade event sellAmount"
@@ -60,4 +62,17 @@ type Trade @entity {
   buyToken: Token!
   "Order"
   order: Order!
+}
+
+type Settlement @entity {
+  "TxHash"
+  id: ID!
+  "Transaction hash"
+  txHash: Bytes!
+  "First trade timestamp"
+  firstTradeTimestamp: BigInt!
+  "Collection of trades"
+  trades: [Trade!] @derivedFrom(field: "settlement")
+  "Sum of the fees in trades"
+  totalFees: BigInt!
 }
