@@ -5,35 +5,48 @@ import { Order } from "../../generated/schema"
 
 export namespace orders {
 
-    export function invalidateOrder(orderId: string): void {
+    export function invalidateOrder(orderId: string, timestamp: BigInt): Order {
 
         let order = Order.load(orderId)
 
         if (!order) {
             order = new Order(orderId)
-            log.warning('Order {} was not found. It was created for being invalidated', [orderId])
+            log.info('Order {} was not found. It was created for being invalidated', [orderId])
         }
 
         order.isValid = false
-        order.save()
+        order.invalidateTimestamp = timestamp
+
+        return order as Order
     }
 
-    export function getOrCreateOrder(orderId: string, timestamp: BigInt, owner: Address): Order {
+    export function preSig(orderId: string, owner: string, timestamp: BigInt): Order {
+
+        let order = getOrCreateOrder(orderId, owner)
+
+        order.presignTimestamp = timestamp
+
+        return order as Order
+    }
+
+    export function getOrCreateOrderForTrade(orderId: string, timestamp: BigInt, owner: string): Order {
+
+        let order = getOrCreateOrder(orderId, owner)
+        order.tradesTimestamp = timestamp
+
+        return order as Order
+    }
+
+    function getOrCreateOrder(orderId: string, owner: string): Order {
 
         let order = Order.load(orderId)
 
         if (!order) {
             order = new Order(orderId)
-            order.timestamp = timestamp
             order.isValid = true
-        } else {
-            if (order.timestamp > timestamp) {
-                order.timestamp = timestamp
-            }
-        }
+        } 
 
-        order.owner = owner.toHexString()
-        order.save()
+        order.owner = owner
 
         return order as Order
     }

@@ -27,12 +27,16 @@ type Token @entity {
 type Order @entity {
   "Trade's OrderUid to hex string"
   id: ID!
-  "Trade's owner"
-  owner: User!
-  "block's timestamp"
-  timestamp: BigInt!
+  "Trade's owner or presign User"
+  owner: User
+  "block's timestamp on trade event"
+  tradesTimestamp: BigInt
+  "block's timestamp on invalidate event"
+  invalidateTimestamp: BigInt
+  "block's timestamp on presign event"
+  presignTimestamp: BigInt
   "Array of trades on the order"
-  trades: [Trade!]! @derivedFrom(field: "order")
+  trades: [Trade!] @derivedFrom(field: "order")
   "Boolean value true by default unless is invalidated by the event"
   isValid: Boolean!
 }
