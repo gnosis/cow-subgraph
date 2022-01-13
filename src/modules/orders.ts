@@ -20,12 +20,11 @@ export namespace orders {
         return order as Order
     }
 
-    export function preSig(orderId: string, owner: string, isPresigned: boolean, timestamp: BigInt): Order {
+    export function preSig(orderId: string, owner: string, timestamp: BigInt): Order {
 
         let order = getOrCreateOrder(orderId, owner)
 
         order.presignTimestamp = timestamp
-        order.isPresigned = isPresigned
 
         return order as Order
     }
@@ -45,7 +44,6 @@ export namespace orders {
         if (!order) {
             order = new Order(orderId)
             order.isValid = true
-            order.isPresigned = false
         } 
 
         order.owner = owner

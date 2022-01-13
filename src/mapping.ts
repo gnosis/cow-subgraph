@@ -24,10 +24,9 @@ export function handlePreSignature(event: PreSignature): void {
   let orderUid = event.params.orderUid.toHexString()
   let ownerAddress = event.params.owner
   let owner = ownerAddress.toHexString()
-  let signed = event.params.signed
   let timestamp = event.block.timestamp
 
-  let order = orders.preSig(orderUid, owner, signed, timestamp)
+  let order = orders.preSig(orderUid, owner, timestamp)
 
   order.save()
 

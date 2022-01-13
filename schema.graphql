@@ -39,8 +39,6 @@ type Order @entity {
   trades: [Trade!] @derivedFrom(field: "order")
   "Boolean value true by default unless is invalidated by the event"
   isValid: Boolean!
-  "Boolean value false by default unless is presign by the event"
-  isPresigned: Boolean!
 }
 
 type Trade @entity {
