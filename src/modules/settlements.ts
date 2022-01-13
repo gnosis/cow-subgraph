@@ -13,11 +13,7 @@ export namespace settlements {
             settlement = new Settlement(settlementId)
             settlement.txHash = txHash
             settlement.firstTradeTimestamp = tradeTimestamp
-            settlement.totalFees = feeAmount
-        } else {
-            let prevFees = settlement.totalFees
-            settlement.totalFees = prevFees.plus(feeAmount)
-        }
-        settlement.save()
+            settlement.save()
+        } 
     }
 }

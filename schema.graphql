@@ -73,6 +73,4 @@ type Settlement @entity {
   firstTradeTimestamp: BigInt!
   "Collection of trades"
   trades: [Trade!] @derivedFrom(field: "settlement")
-  "Sum of the fees in trades"
-  totalFees: BigInt!
 }
