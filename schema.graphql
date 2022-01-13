@@ -46,6 +46,8 @@ type Trade @entity {
   gasPrice: BigInt!
   "Transaction's gas limit"
   gasLimit: BigInt!
+  "Trade's fee amount"
+  feeAmount: BigInt! 
   "Trade event transaction hash"
   txHash: Bytes!
   "Trade event buyAmount"

@@ -15,6 +15,7 @@ export namespace trades {
         let buyAmount = event.params.buyAmount
         let txGasPrice = event.transaction.gasPrice
         let txGasLimit = event.transaction.gasLimit
+        let feeAmount = event.params.feeAmount
 
         let trade = TradeEntity.load(tradeId)
 
@@ -31,6 +32,7 @@ export namespace trades {
         trade.order = orderId
         trade.gasPrice = txGasPrice
         trade.gasLimit = txGasLimit
+        trade.feeAmount = feeAmount
         trade.save()
     }
 

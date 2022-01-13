@@ -2,7 +2,9 @@
 
 Implements a subgraph for the Gnosis Protocol V 2 a.k.a. Cowswap 
 
-*So far this is a work in progress and it's working only on Mainnet.*
+*So far this is a work in progress.*
+
+It's working on mainnet, rinkeby and xdai network.
 
 Docs about Cowswap: https://docs.cowswap.exchange/
 GP v2 contracts repo: https://github.com/gnosis/gp-v2-contracts/
@@ -51,6 +53,8 @@ $ yarn deploy
 ```
 
 If everything went well you'll have a copy of this subgraph running on your hosted service account.
+
+For deploying any other network please take a look at package.json file entries called deploy:rinkeby and deploy:xdai. Both are refering to different yaml files containing each configuration.
 
 ---------
 
