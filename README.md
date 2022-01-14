@@ -1,20 +1,35 @@
-# Cow-subgraph
+# CoW-subgraph
 
-Implements a subgraph for the Gnosis Protocol V 2 a.k.a. Cowswap 
+Implements a subgraph for the CoW Protocol 
 
 *So far this is a work in progress.*
 
-It's working on mainnet, rinkeby and xdai network.
+It's working on mainnet, rinkeby and gnosis chain network.
 
-Docs about Cowswap: https://docs.cowswap.exchange/
-GP v2 contracts repo: https://github.com/gnosis/gp-v2-contracts/
-Mainnet deployment on hosted service: https://thegraph.com/hosted-service/subgraph/gnosis/cow
-There is also a GP v1 subgraph here: https://github.com/gnosis/dex-subgraph
+## Available entities
 
-## To do list: 
+![CoW Protocol subgraph entities diagrams](./dia/CowProtocolSubgraphEntities.png)
 
-- Deploy subgraph on Rinkeby
-- Deploy subgraph on xDAI
+### Settlement entity notes
+
+So far settlements are being created using txHash as ID and that hash is creating the relation between Settlement and Trade entities.
+
+### Orders entity notes
+
+Notice order entity has 3 different timestamps. Each timestamp will be filled depending on the entry point that order passed.
+
+**Entrypoints are:**
+
+- On trade event
+- On invalidate order event
+- On pre sign event
+
+## Some links
+
+- Docs about Cowswap: https://docs.cowswap.exchange/
+- GP v2 contracts repo: https://github.com/gnosis/gp-v2-contracts/
+- Mainnet deployment on hosted service: https://thegraph.com/hosted-service/subgraph/gnosis/cow
+- There is also a GP v1 subgraph here: https://github.com/gnosis/dex-subgraph
 
 ## Setup
 
@@ -43,18 +58,16 @@ $ graph auth --product hosted-service <YourAccessToken>
 
 5.- Using your browser create a new subgraph in the dashboard by clicking "Add Subgraph" button and complete the form. Notice your subgraph will be named as the following: "YourGithubAccount/SubgraphName"
 
-6.- Edit the package.json file using your favorite editor. Replace <YourGithubUser/YourSubgraph> with the value obtained in the previous step. (Remove the "<" and the ">" characters)
+6.- Edit the package.json file using your favorite editor. Replace <YourGithubUser/YourSubgraph> with the value obtained in the previous step. Replace <Network> field too with the desired network you want to deploy, ```mainnet``` for ethereum mainnet, ```rinkeby``` for ethereum rinkeby or ```gc``` for gnosis chain. (Remove the "<" and the ">" characters)
 
 7.- Execute the following commands:
 ```
-$ yarn codegen
-$ yarn build
-$ yarn deploy
+$ yarn deploy:dev
 ```
 
-If everything went well you'll have a copy of this subgraph running on your hosted service account.
+If everything went well you'll have a copy of this subgraph running on your hosted service account indexing your desired network.
 
-For deploying any other network please take a look at package.json file entries called deploy:rinkeby and deploy:xdai. Both are refering to different yaml files containing each configuration.
+Please notice a subgraph can only index a single network, if you want to index another network you should create a new sugraph and do same steps starting from step 3.
 
 ---------
 
