@@ -1,6 +1,7 @@
 import { Trade } from "../../generated/GPV2Settlement/GPV2Settlement"
 
 import { Token, Trade as TradeEntity } from "../../generated/schema"
+import { settlements } from "./"
 
 export namespace trades {
 
@@ -17,6 +18,10 @@ export namespace trades {
         let txGasLimit = event.transaction.gasLimit
         let feeAmount = event.params.feeAmount
 
+
+        settlements.getOrCreateSettlement(txHash, timestamp, feeAmount)
+
+
         let trade = TradeEntity.load(tradeId)
 
         if (!trade) {
@@ -25,6 +30,7 @@ export namespace trades {
 
         trade.timestamp = timestamp
         trade.txHash = txHash
+        trade.settlement = txHashString
         trade.buyToken = buyToken.id
         trade.buyAmount = buyAmount
         trade.sellToken = sellToken.id
