@@ -23,7 +23,7 @@ export namespace trades {
         user.isSolver = true
 
 
-        settlements.getOrCreateSettlement(txHash, timestamp)
+        settlements.getOrCreateSettlement(txHash, timestamp, user.id)
 
 
         let trade = TradeEntity.load(tradeId)
