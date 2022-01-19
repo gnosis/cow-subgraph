@@ -24,6 +24,10 @@ type Token @entity {
   symbol: String!
   "Token decimals fetched by contract call"
   decimals: Int!
+  "Sum of total buy amount for this token"
+  buyAmount: BigInt!
+  "Sum of total sell amount for this token"
+  sellAmount: BigInt!
 }
 
 type Order @entity {
