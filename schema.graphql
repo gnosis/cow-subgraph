@@ -7,7 +7,7 @@ type User @entity {
   firstTradeTimestamp: BigInt!
   "List of orders placed by this user"
   ordersPlaced: [Order!]! @derivedFrom(field: "owner")
-  "determine if user has solved a settlement"
+  "Determine if user has solved a settlement"
   isSolver: Boolean!
 }
 
@@ -31,11 +31,11 @@ type Order @entity {
   id: ID!
   "Trade's owner or presign User"
   owner: User
-  "block's timestamp on trade event"
+  "Block's timestamp on trade event"
   tradesTimestamp: BigInt
-  "block's timestamp on invalidate event"
+  "Block's timestamp on invalidate event"
   invalidateTimestamp: BigInt
-  "block's timestamp on presign event"
+  "Block's timestamp on presign event"
   presignTimestamp: BigInt
   "Array of trades on the order"
   trades: [Trade!] @derivedFrom(field: "order")
