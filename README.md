@@ -74,3 +74,11 @@ Please notice a subgraph can only index a single network, if you want to index a
 If you have any suggestion about this work feel free to create a task or a pull request with your own changes to be considered. 
 
 Mooooh!
+
+# TODO
+
+- normalize comments on schema " or #
+- Organize mapping structure added factory.ts to src root??? Maybe rename or whatever
+- check for unused functions on helpers
+- check if tokens.ts helpers could be used for existing code
+- check temp fix on factory.ts. what's fixing?

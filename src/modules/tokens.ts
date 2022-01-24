@@ -1,6 +1,7 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts"
 import { ERC20 } from "../../generated/GPV2Settlement/ERC20"
 import { Token } from "../../generated/schema"
+import { ZERO_BD } from "../helpers/constants"
 
 const DEFAULT_DECIMALS = 18
 
@@ -24,7 +25,13 @@ export namespace tokens {
               : DEFAULT_DECIMALS
           token.name = !tokenName.reverted ? tokenName.value : ""
           token.symbol = !tokenSymbol.reverted ? tokenSymbol.value : ""
-      
+          token.derivedETH = ZERO_BD
+          token.allowedPools = []
+        }
+
+        // Saves first trade timestamp even if token was created by a pool
+        if (token.firstTradeTimestamp.isZero() && !timestamp.isZero()) {
+          token.firstTradeTimestamp = timestamp
         }
       
         token.save()

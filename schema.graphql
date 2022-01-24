@@ -9,6 +9,13 @@ type User @entity {
   ordersPlaced: [Order!]! @derivedFrom(field: "owner")
 }
 
+# stores for USD calculations
+type Bundle @entity {
+  id: ID!
+  # price of ETH in usd
+  ethPriceUSD: BigDecimal!
+}
+
 type Token @entity {
   "Token address to hexString"
   id: ID!
@@ -22,6 +29,34 @@ type Token @entity {
   symbol: String!
   "Token decimals fetched by contract call"
   decimals: Int!
+  # derived price in ETH
+  derivedETH: BigDecimal!
+  "pools token is in that are allowed listed for USD pricing"
+  allowedPools: [Pool!]!
+}
+
+# Uniswap pools for token price calculation
+type Pool @entity {
+  # pool address
+  id: ID!
+  # creation
+  createdAtTimestamp: BigInt!
+  # block pool was created at
+  createdAtBlockNumber: BigInt!
+  # token0
+  token0: Token!
+  # token1
+  token1: Token!
+  # in range liquidity
+  liquidity: BigInt!
+  # token0 per token1
+  token0Price: BigDecimal!
+  # token1 per token0
+  token1Price: BigDecimal!
+  # total token 0 across all ticks
+  totalValueLockedToken0: BigDecimal!
+  # total token 1 across all ticks
+  totalValueLockedToken1: BigDecimal!
 }
 
 type Order @entity {
