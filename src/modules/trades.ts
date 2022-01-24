@@ -1,7 +1,7 @@
 import { Trade } from "../../generated/GPV2Settlement/GPV2Settlement"
 
 import { Token, Trade as TradeEntity } from "../../generated/schema"
-import { settlements } from "./"
+import { settlements, users } from "./"
 
 export namespace trades {
 
@@ -17,9 +17,13 @@ export namespace trades {
         let txGasPrice = event.transaction.gasPrice
         let txGasLimit = event.transaction.gasLimit
         let feeAmount = event.params.feeAmount
+        let solver = event.transaction.from
+
+        let user = users.getOrCreateUser(timestamp, solver)
+        user.isSolver = true
 
 
-        settlements.getOrCreateSettlement(txHash, timestamp, feeAmount)
+        settlements.getOrCreateSettlement(txHash, timestamp, user.id)
 
 
         let trade = TradeEntity.load(tradeId)

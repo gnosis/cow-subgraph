@@ -31,7 +31,7 @@ export function handlePreSignature(event: PreSignature): void {
 
   order.save()
 
-  users.getOrCreateUser(owner, timestamp, ownerAddress)
+  users.getOrCreateUser(timestamp, ownerAddress)
 }
 
 export function handleSettlement(event: Settlement): void {}
@@ -55,5 +55,5 @@ export function handleTrade(event: Trade): void {
 
   order.save()
 
-  users.getOrCreateUser(owner, timestamp, ownerAddress)
+  users.getOrCreateUser(timestamp, ownerAddress)
 }
