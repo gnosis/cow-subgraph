@@ -14,8 +14,8 @@
     "deploy:dev": "yarn prepare:<Network> && yarn codegen && graph <YourGithubUser/YourSubgraph> --node https://api.thegraph.com/deploy/"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.25.0",
-    "@graphprotocol/graph-ts": "0.24.1",
+    "@graphprotocol/graph-cli": "0.20.0",
+    "@graphprotocol/graph-ts": "0.20.0",
     "mustache": "^4.2.0"
   }
 }
