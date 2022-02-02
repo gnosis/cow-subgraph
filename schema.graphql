@@ -1,5 +1,5 @@
 type User @entity {
-  "Trade event order owner"
+  "Address to HexString"
   id: ID!
   "Owner's address"
   address: Bytes!
@@ -29,7 +29,7 @@ type Token @entity {
 type Order @entity {
   "Trade's OrderUid to hex string"
   id: ID!
-  "Trade's owner or presign User"
+  "Trader's account"
   owner: User
   "Block's timestamp on trade event"
   tradesTimestamp: BigInt
@@ -37,6 +37,8 @@ type Order @entity {
   invalidateTimestamp: BigInt
   "Block's timestamp on presign event"
   presignTimestamp: BigInt
+  "Boolean value for is presigned"
+  isSigned: Boolean
   "Array of trades on the order"
   trades: [Trade!] @derivedFrom(field: "order")
   "Boolean value true by default unless is invalidated by the event"
