@@ -24,8 +24,7 @@ export namespace tokens {
               : DEFAULT_DECIMALS
           token.name = !tokenName.reverted ? tokenName.value : ""
           token.symbol = !tokenSymbol.reverted ? tokenSymbol.value : ""
-          token.buyAmount = BigInt.fromI32(0)
-          token.sellAmount = BigInt.fromI32(0)
+          token.totalVolume = BigInt.fromI32(0)
 
           token.save()
         }
