@@ -24,10 +24,11 @@ export namespace tokens {
               : DEFAULT_DECIMALS
           token.name = !tokenName.reverted ? tokenName.value : ""
           token.symbol = !tokenSymbol.reverted ? tokenSymbol.value : ""
-      
+          token.totalVolume = BigInt.fromI32(0)
+
+          token.save()
         }
       
-        token.save()
       
         return token as Token
       }

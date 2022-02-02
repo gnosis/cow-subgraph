@@ -43,16 +43,26 @@ export function handleTrade(event: Trade): void {
   let owner = ownerAddress.toHexString()
   let sellTokenAddress = event.params.sellToken
   let buyTokenAddress = event.params.buyToken
+  let sellAmount = event.params.sellAmount
+  let buyAmount = event.params.buyAmount
 
   let timestamp = event.block.timestamp
 
   let sellToken = tokens.getOrCreateToken(sellTokenAddress, timestamp)
   let buyToken = tokens.getOrCreateToken(buyTokenAddress, timestamp)
 
+  let tokenCurrentSellAmount = sellToken.totalVolume
+  let tokenCurrentBuyAmount = buyToken.totalVolume
+
+  sellToken.totalVolume =  tokenCurrentSellAmount.plus(sellAmount)
+  buyToken.totalVolume =  tokenCurrentBuyAmount.plus(buyAmount)
+
   trades.getOrCreateTrade(event, buyToken, sellToken)
  
   let order = orders.getOrCreateOrderForTrade(orderId, timestamp, owner)
 
+  sellToken.save()
+  buyToken.save()
   order.save()
 
   users.getOrCreateUser(timestamp, ownerAddress)
