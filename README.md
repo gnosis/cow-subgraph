@@ -74,3 +74,7 @@ Please notice a subgraph can only index a single network, if you want to index a
 If you have any suggestion about this work feel free to create a task or a pull request with your own changes to be considered. 
 
 Mooooh!
+
+### stuff
+
+WARNING: Image for service gp-v2-contracts was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.

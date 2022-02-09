@@ -4,10 +4,13 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
+    "prepare:local": "mustache config/ganache.json subgraph.yaml.mustache > subgraph.yaml",
     "prepare:mainnet": "mustache config/mainnet.json subgraph.yaml.mustache > subgraph.yaml",
     "prepare:rinkeby": "mustache config/rinkeby.json subgraph.yaml.mustache > subgraph.yaml",
     "prepare:gc": "mustache config/gc.json subgraph.yaml.mustache > subgraph.yaml",
     "deploy": "yarn deploy:mainnet",
+    "create:local": "yarn prepare:local && graph create gnosis/cow --node http://127.0.0.1:8020",
+    "deploy:local": "yarn prepare:local && yarn codegen && graph deploy gnosis/cow --ipfs http://127.0.0.1:5001 --node http://127.0.0.1:8020",
     "deploy:mainnet": "yarn prepare:mainnet && yarn codegen && graph deploy gnosis/cow --node https://api.thegraph.com/deploy/",
     "deploy:rinkeby": "yarn prepare:rinkeby && yarn codegen && graph deploy gnosis/cow-rinkeby --node https://api.thegraph.com/deploy/",
     "deploy:gc": "yarn prepare:gc && yarn codegen && graph deploy gnosis/cow-gc --node https://api.thegraph.com/deploy/",
