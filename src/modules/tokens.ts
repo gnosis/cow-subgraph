@@ -1,6 +1,7 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts"
 import { ERC20 } from "../../generated/GPV2Settlement/ERC20"
 import { Token } from "../../generated/schema"
+import { getPrice } from "../helpers/getPrice"
 
 const DEFAULT_DECIMALS = 18
 
@@ -24,6 +25,7 @@ export namespace tokens {
               : DEFAULT_DECIMALS
           token.name = !tokenName.reverted ? tokenName.value : ""
           token.symbol = !tokenSymbol.reverted ? tokenSymbol.value : ""
+          token.price = getPrice(tokenAddress)
       
         }
       
