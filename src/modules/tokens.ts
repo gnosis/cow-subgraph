@@ -25,7 +25,10 @@ export namespace tokens {
               : DEFAULT_DECIMALS
           token.name = !tokenName.reverted ? tokenName.value : ""
           token.symbol = !tokenSymbol.reverted ? tokenSymbol.value : ""
-          token.price = getPrice(tokenAddress)
+          let prices = getPrice(tokenAddress)
+          token.priceETH = prices.priceInEth
+          token.priceUSD = prices.priceInUsd
+          token.ethPrice = prices.ethPrice
       
         }
       

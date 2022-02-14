@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: GPV2Settlement
-    network: rinkeby
+    network: mainnet
     source:
       address: "0x9008D19f58AAbD9eD0D60971565AA8510560ab41"
       abi: GPV2Settlement
-      startBlock: 9055570
+      startBlock: 12593264
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5

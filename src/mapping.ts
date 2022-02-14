@@ -52,8 +52,14 @@ export function handleTrade(event: Trade): void {
   trades.getOrCreateTrade(event, buyToken, sellToken)
 
 
-  sellToken.price = getPrice(sellTokenAddress)
-  buyToken.price = getPrice(buyTokenAddress)
+  let sellTokenprices = getPrice(sellTokenAddress)
+  let buyTokenprices = getPrice(buyTokenAddress)
+  sellToken.priceETH = sellTokenprices.priceInEth
+  sellToken.priceUSD = sellTokenprices.priceInUsd
+  sellToken.ethPrice = sellTokenprices.ethPrice
+  buyToken.priceETH = buyTokenprices.priceInEth
+  buyToken.priceUSD = buyTokenprices.priceInUsd
+  buyToken.ethPrice = buyTokenprices.ethPrice
 
   sellToken.save()
   buyToken.save()

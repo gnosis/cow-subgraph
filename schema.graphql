@@ -22,7 +22,9 @@ type Token @entity {
   symbol: String!
   "Token decimals fetched by contract call"
   decimals: Int!
-  price: BigDecimal!
+  ethPrice: BigDecimal!
+  priceETH: BigDecimal!
+  priceUSD: BigDecimal!
 }
 
 type Order @entity {
