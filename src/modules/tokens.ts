@@ -32,4 +32,18 @@ export namespace tokens {
       
         return token as Token
       }
+
+      export function getTokenDecimals(tokenAddress: Address): number {
+        let tokenId = tokenAddress.toHexString()
+        let token = Token.load(tokenId)
+
+        if (token) {
+          return token.decimals
+        }
+
+        let erc20Token = ERC20.bind(tokenAddress)
+        let tokenDecimals = erc20Token.try_decimals()
+
+        return tokenDecimals.reverted ? DEFAULT_DECIMALS : tokenDecimals.value
+      }
 }
