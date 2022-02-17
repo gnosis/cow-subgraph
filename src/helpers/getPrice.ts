@@ -1,21 +1,19 @@
-import { Address, BigDecimal, BigInt, dataSource, log } from "@graphprotocol/graph-ts"
-import { UniswapV2Pair, UniswapV2Pair__getReservesResult } from '../../generated/GPV2Settlement/UniswapV2Pair'
+import { Address, 
+    BigDecimal, 
+    BigInt, 
+    dataSource } from "@graphprotocol/graph-ts"
+import { UniswapV2Pair } from '../../generated/GPV2Settlement/UniswapV2Pair'
 import { UniswapV2Factory } from '../../generated/GPV2Settlement/UniswapV2Factory'
-import { ONE_BD, ZERO_ADDRESS, ZERO_BI } from "./constants"
+import { ONE_BD, 
+    ZERO_ADDRESS, 
+    ZERO_BI, 
+    UNISWAP_FACTORY, 
+    STABLECOIN_ADDRESS, 
+    WETH_ADDRESS, 
+    EMPTY_RESERVES_RESULT } from "./constants"
 import { tokens } from "../modules"
 import { DebugEntity } from "../../generated/schema"
 
-let UNISWAP_FACTORY = Address.fromString('0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f')
-
-let wethAddress = new Map<string, Address>()
-wethAddress.set('rinkeby', Address.fromString('0xc778417E063141139Fce010982780140Aa0cD5Ab'))
-wethAddress.set('mainnet', Address.fromString('0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'))
-
-let stablecoinAddress = new Map<string, Address>()
-stablecoinAddress.set('rinkeby', Address.fromString('0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea'))
-stablecoinAddress.set('mainnet', Address.fromString('0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48')) // USDC
-
-let defaultEmpty = new UniswapV2Pair__getReservesResult(ZERO_BI, ZERO_BI, ZERO_BI)
 
 function getPair(token0: Address, token1: Address): Address {
     let factory = UniswapV2Factory.bind(UNISWAP_FACTORY)
@@ -54,8 +52,8 @@ function calculatePrice(token0: Address, token1: Address, pairToken: Address, re
 export function getPrice(token: Address): BigDecimal {
     let network = dataSource.network()
 
-    let stablecoin = stablecoinAddress.get(network)
-    let weth = wethAddress.get(network)
+    let stablecoin = STABLECOIN_ADDRESS.get(network)
+    let weth = WETH_ADDRESS.get(network)
 
     if (token.toHex() == stablecoin.toHex()) {
         return ONE_BD
@@ -64,7 +62,7 @@ export function getPrice(token: Address): BigDecimal {
     if (token == weth) {
         let pair = UniswapV2Pair.bind(getPair(token, stablecoin))
         let reservesTry = pair.try_getReserves()
-        let reserves = reservesTry.reverted ? defaultEmpty : reservesTry.value
+        let reserves = reservesTry.reverted ? EMPTY_RESERVES_RESULT : reservesTry.value
         let pairToken0Try = pair.try_token0()
         let pairToken0 = pairToken0Try.reverted ? ZERO_ADDRESS : pairToken0Try.value
         let pairToken1Try = pair.try_token1()
@@ -84,7 +82,7 @@ export function getPrice(token: Address): BigDecimal {
 
     let pair = UniswapV2Pair.bind(getPair(token, weth))
     let reservesTry = pair.try_getReserves()
-    let reserves = reservesTry.reverted ? defaultEmpty : reservesTry.value
+    let reserves = reservesTry.reverted ? EMPTY_RESERVES_RESULT : reservesTry.value
     let pairToken0Try = pair.try_token0()
     let pairToken0 = pairToken0Try.reverted ? ZERO_ADDRESS : pairToken0Try.value
     let pairToken1Try = pair.try_token1()
