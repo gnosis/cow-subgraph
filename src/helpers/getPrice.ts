@@ -1,16 +1,20 @@
-import { Address, 
-    BigDecimal, 
-    BigInt, 
-    dataSource } from "@graphprotocol/graph-ts"
+import {
+    Address,
+    BigDecimal,
+    BigInt,
+    dataSource
+} from "@graphprotocol/graph-ts"
 import { UniswapV2Pair } from '../../generated/GPV2Settlement/UniswapV2Pair'
 import { UniswapV2Factory } from '../../generated/GPV2Settlement/UniswapV2Factory'
-import { ONE_BD, 
-    ZERO_ADDRESS, 
-    ZERO_BI, 
-    UNISWAP_FACTORY, 
-    STABLECOIN_ADDRESS, 
-    WETH_ADDRESS, 
-    EMPTY_RESERVES_RESULT } from "./constants"
+import {
+    ONE_BD,
+    ZERO_ADDRESS,
+    ZERO_BI,
+    UNISWAP_FACTORY,
+    STABLECOIN_ADDRESS,
+    WETH_ADDRESS,
+    EMPTY_RESERVES_RESULT
+} from "./constants"
 import { tokens } from "../modules"
 import { DebugEntity } from "../../generated/schema"
 
@@ -49,36 +53,8 @@ function calculatePrice(token0: Address, token1: Address, pairToken: Address, re
         : reserves0WithDecimals.div(reserves1WithDecimals)
 }
 
-export function getPrice(token: Address): BigDecimal {
-    let network = dataSource.network()
-
-    let stablecoin = STABLECOIN_ADDRESS.get(network)
-    let weth = WETH_ADDRESS.get(network)
-
-    if (token.toHex() == stablecoin.toHex()) {
-        return ONE_BD
-    }
-
-    if (token == weth) {
-        let pair = UniswapV2Pair.bind(getPair(token, stablecoin))
-        let reservesTry = pair.try_getReserves()
-        let reserves = reservesTry.reverted ? EMPTY_RESERVES_RESULT : reservesTry.value
-        let pairToken0Try = pair.try_token0()
-        let pairToken0 = pairToken0Try.reverted ? ZERO_ADDRESS : pairToken0Try.value
-        let pairToken1Try = pair.try_token1()
-        let pairToken1 = pairToken1Try.reverted ? ZERO_ADDRESS : pairToken1Try.value
-
-        if (reserves.value0 == ZERO_BI ||
-            reserves.value1 == ZERO_BI ||
-            pairToken0 == ZERO_ADDRESS ||
-            pairToken1 == ZERO_ADDRESS) {
-            return ONE_BD
-        }
-
-        return calculatePrice(pairToken0, pairToken1, token, reserves.value0, reserves.value1)
-    }
-
-    let pair = UniswapV2Pair.bind(getPair(token, weth))
+function getUniswapPricesForPair(token0: Address, token1: Address, isEthPriceCalculation: bool): BigDecimal {
+    let pair = UniswapV2Pair.bind(getPair(token0, token1))
     let reservesTry = pair.try_getReserves()
     let reserves = reservesTry.reverted ? EMPTY_RESERVES_RESULT : reservesTry.value
     let pairToken0Try = pair.try_token0()
@@ -93,5 +69,28 @@ export function getPrice(token: Address): BigDecimal {
         return ONE_BD
     }
 
-    return calculatePrice(pairToken1, pairToken0, token, reserves.value1, reserves.value0).times(getPrice(weth))
+    // this call inverts prices depending on token1 is weth or not (find a better way)
+    if (isEthPriceCalculation) {
+        return calculatePrice(pairToken1, pairToken0, token0, reserves.value1, reserves.value0)
+    }
+    return calculatePrice(pairToken0, pairToken1, token0, reserves.value0, reserves.value1)
+}
+
+export function getPrice(token: Address): BigDecimal {
+    let network = dataSource.network()
+
+    let stablecoin = STABLECOIN_ADDRESS.get(network)
+    let weth = WETH_ADDRESS.get(network)
+
+    if (token.toHex() == stablecoin.toHex()) {
+        return ONE_BD
+    }
+
+    if (token == weth) {
+        return getUniswapPricesForPair(token, stablecoin, false)
+    }
+
+    let priceETH = getUniswapPricesForPair(token, weth, true)
+    // notice calculate price is inverted when token2 is weth
+    return priceETH.times(getPrice(weth))
 }
