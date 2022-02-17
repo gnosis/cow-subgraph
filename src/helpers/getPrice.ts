@@ -75,8 +75,6 @@ export function getPrice(token: Address): BigDecimal {
             return ONE_BD
         }
 
-        pair.token0()
-
         return calculatePrice(pairToken0, pairToken1, token, reserves.value0, reserves.value1)
     }
 
