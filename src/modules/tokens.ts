@@ -25,10 +25,10 @@ export namespace tokens {
               : DEFAULT_DECIMALS
           token.name = !tokenName.reverted ? tokenName.value : ""
           token.symbol = !tokenSymbol.reverted ? tokenSymbol.value : ""
-          token.price = getPrice(tokenAddress)
+          token.priceUSD = getPrice(tokenAddress).get("usd")
+          token.priceETH = getPrice(tokenAddress).get("eth")
           token.save()
         }
-      
       
         return token as Token
       }

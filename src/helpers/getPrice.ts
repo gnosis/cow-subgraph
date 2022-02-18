@@ -16,25 +16,11 @@ import {
     EMPTY_RESERVES_RESULT
 } from "./constants"
 import { tokens } from "../modules"
-import { DebugEntity } from "../../generated/schema"
-
 
 function getPair(token0: Address, token1: Address): Address {
     let factory = UniswapV2Factory.bind(UNISWAP_FACTORY)
     let factoryPairTry = factory.try_getPair(token0, token1)
     return factoryPairTry.reverted ? ZERO_ADDRESS as Address : factoryPairTry.value
-}
-
-function placeDebugEntity(token0: Address, token1: Address, reserves0: BigInt, reserves1: BigInt, dec0: BigDecimal, dec1: BigDecimal): void {
-    let id = token0.toHexString() + '-' + token1.toHexString()
-    let debug = new DebugEntity(id)
-    debug.token0 = token0.toHexString()
-    debug.token1 = token1.toHexString()
-    debug.reserves0 = reserves0
-    debug.reserves1 = reserves1
-    debug.dec0 = dec0
-    debug.dec1 = dec1
-    debug.save()
 }
 
 function valueWithTokenDecimals(val: BigInt, token: Address): BigDecimal {
@@ -47,7 +33,6 @@ function valueWithTokenDecimals(val: BigInt, token: Address): BigDecimal {
 function calculatePrice(token0: Address, token1: Address, pairToken: Address, reserves0: BigInt, reserves1: BigInt): BigDecimal {
     let reserves0WithDecimals = valueWithTokenDecimals(reserves0, token0)
     let reserves1WithDecimals = valueWithTokenDecimals(reserves1, token1)
-    placeDebugEntity(token0, token1, reserves0, reserves1, reserves0WithDecimals, reserves1WithDecimals)
     return token0 == pairToken
         ? reserves1WithDecimals.div(reserves0WithDecimals)
         : reserves0WithDecimals.div(reserves1WithDecimals)
@@ -76,21 +61,26 @@ function getUniswapPricesForPair(token0: Address, token1: Address, isEthPriceCal
     return calculatePrice(pairToken0, pairToken1, token0, reserves.value0, reserves.value1)
 }
 
-export function getPrice(token: Address): BigDecimal {
+export function getPrice(token: Address): Map<string, BigDecimal> {
     let network = dataSource.network()
 
     let stablecoin = STABLECOIN_ADDRESS.get(network)
     let weth = WETH_ADDRESS.get(network)
-
+    let prices = new Map<string, BigDecimal>()
     if (token.toHex() == stablecoin.toHex()) {
-        return ONE_BD
+        prices.set("usd", ONE_BD)
+        prices.set("eth", ONE_BD.div(getPrice(weth).get("eth")))
+        return prices
     }
 
     if (token == weth) {
-        return getUniswapPricesForPair(token, stablecoin, false)
+        prices.set("usd", getUniswapPricesForPair(token, stablecoin, false))
+        prices.set("eth", ONE_BD)
+        return prices
     }
 
-    let priceETH = getUniswapPricesForPair(token, weth, true)
-    // notice calculate price is inverted when token2 is weth
-    return priceETH.times(getPrice(weth))
+    let priceEth = getUniswapPricesForPair(token, weth, true)
+    prices.set("eth", priceEth)
+    prices.set("usd", priceEth.times(getPrice(weth).get("usd")))
+    return prices
 }

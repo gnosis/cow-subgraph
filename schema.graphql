@@ -11,16 +11,6 @@ type User @entity {
   isSolver: Boolean!
 }
 
-type DebugEntity @entity {
-  id: ID!
-  token0: Token!
-  token1: Token!
-  reserves0: BigInt
-  reserves1: BigInt
-  dec0: BigDecimal
-  dec1: BigDecimal
-}
-
 type Token @entity {
   "Token address to hexString"
   id: ID!
@@ -34,7 +24,10 @@ type Token @entity {
   symbol: String!
   "Token decimals fetched by contract call"
   decimals: Int!
-  price: BigDecimal!
+  "Estimated token price in USD"
+  priceUSD: BigDecimal!
+  "Estimated token price in ETH"
+  priceETH: BigDecimal!
 }
 
 type Order @entity {
