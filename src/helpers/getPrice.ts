@@ -61,7 +61,7 @@ function getUniswapPricesForPair(token0: Address, token1: Address, isEthPriceCal
     return calculatePrice(pairToken0, pairToken1, token0, reserves.value0, reserves.value1)
 }
 
-export function getPrice(token: Address): Map<string, BigDecimal> {
+export function getPrices(token: Address): Map<string, BigDecimal> {
     let network = dataSource.network()
 
     let stablecoin = STABLECOIN_ADDRESS.get(network)
@@ -69,7 +69,7 @@ export function getPrice(token: Address): Map<string, BigDecimal> {
     let prices = new Map<string, BigDecimal>()
     if (token.toHex() == stablecoin.toHex()) {
         prices.set("usd", ONE_BD)
-        prices.set("eth", ONE_BD.div(getPrice(weth).get("eth")))
+        prices.set("eth", ONE_BD.div(getPrices(weth).get("eth")))
         return prices
     }
 
@@ -81,6 +81,6 @@ export function getPrice(token: Address): Map<string, BigDecimal> {
 
     let priceEth = getUniswapPricesForPair(token, weth, true)
     prices.set("eth", priceEth)
-    prices.set("usd", priceEth.times(getPrice(weth).get("usd")))
+    prices.set("usd", priceEth.times(getPrices(weth).get("usd")))
     return prices
 }

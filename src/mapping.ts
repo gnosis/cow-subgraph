@@ -5,7 +5,7 @@ import {
   Settlement,
   Trade
 } from "../generated/GPV2Settlement/GPV2Settlement"
-import { getPrice } from "./helpers/getPrice"
+import { getPrices } from "./helpers/getPrice"
 import { tokens, trades, orders, users } from "./modules"
 
 export function handleInteraction(event: Interaction): void {}
@@ -60,8 +60,8 @@ export function handleTrade(event: Trade): void {
 
   trades.getOrCreateTrade(event, buyToken, sellToken)
 
-  let sellTokenPrices = getPrice(sellTokenAddress)
-  let buyTokenPrices = getPrice(buyTokenAddress)
+  let sellTokenPrices = getPrices(sellTokenAddress)
+  let buyTokenPrices = getPrices(buyTokenAddress)
   sellToken.priceUSD = sellTokenPrices.get("usd")
   buyToken.priceUSD = buyTokenPrices.get("usd")
   sellToken.priceETH = sellTokenPrices.get("eth")
