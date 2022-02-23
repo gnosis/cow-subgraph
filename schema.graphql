@@ -24,6 +24,8 @@ type Token @entity {
   symbol: String!
   "Token decimals fetched by contract call"
   decimals: Int!
+  "Total volume managed in CowSwap"
+  totalVolume: BigInt!
   "Estimated token price in USD"
   priceUSD: BigDecimal!
   "Estimated token price in ETH"

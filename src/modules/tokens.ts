@@ -1,6 +1,7 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts"
 import { ERC20 } from "../../generated/GPV2Settlement/ERC20"
 import { Token } from "../../generated/schema"
+import { ZERO_BI } from "../helpers/constants"
 import { getPrice } from "../helpers/getPrice"
 
 const DEFAULT_DECIMALS = 18
@@ -25,6 +26,7 @@ export namespace tokens {
               : DEFAULT_DECIMALS
           token.name = !tokenName.reverted ? tokenName.value : ""
           token.symbol = !tokenSymbol.reverted ? tokenSymbol.value : ""
+          token.totalVolume = ZERO_BI
           token.priceUSD = getPrice(tokenAddress).get("usd")
           token.priceETH = getPrice(tokenAddress).get("eth")
           token.save()

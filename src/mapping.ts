@@ -60,15 +60,15 @@ export function handleTrade(event: Trade): void {
 
   trades.getOrCreateTrade(event, buyToken, sellToken)
 
-
-  sellToken.priceUSD = getPrice(sellTokenAddress).get("usd")
-  buyToken.priceUSD = getPrice(buyTokenAddress).get("usd")
-  sellToken.priceETH = getPrice(sellTokenAddress).get("eth")
-  buyToken.priceETH = getPrice(buyTokenAddress).get("eth")
+  let sellTokenPrices = getPrice(sellTokenAddress)
+  let buyTokenPrices = getPrice(buyTokenAddress)
+  sellToken.priceUSD = sellTokenPrices.get("usd")
+  buyToken.priceUSD = buyTokenPrices.get("usd")
+  sellToken.priceETH = sellTokenPrices.get("eth")
+  buyToken.priceETH = buyTokenPrices.get("eth")
 
   sellToken.save()
   buyToken.save()
-  
  
   let order = orders.getOrCreateOrderForTrade(orderId, timestamp, owner)
 
