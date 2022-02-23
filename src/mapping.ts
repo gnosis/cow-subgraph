@@ -5,7 +5,7 @@ import {
   Settlement,
   Trade
 } from "../generated/GPV2Settlement/GPV2Settlement"
-import { getPrices } from "./helpers/getPrice"
+import { getPrices } from "./helpers/getPrices"
 import { tokens, trades, orders, users } from "./modules"
 
 export function handleInteraction(event: Interaction): void {}

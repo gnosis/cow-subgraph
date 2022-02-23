@@ -2,7 +2,7 @@ import { Address, BigInt } from "@graphprotocol/graph-ts"
 import { ERC20 } from "../../generated/GPV2Settlement/ERC20"
 import { Token } from "../../generated/schema"
 import { ZERO_BI } from "../helpers/constants"
-import { getPrices } from "../helpers/getPrice"
+import { getPrices } from "../helpers/getPrices"
 
 const DEFAULT_DECIMALS = 18
 
