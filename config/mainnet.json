@@ -1,4 +1,6 @@
 {
     "network": "mainnet",
-    "startBlock": 12593264
+    "startBlock": 12593264,
+    "ammPoolFactory": "0x1F98431c8aD98523631AE4a59f267346ea31F984",
+    "ammPoolFactoryBlock": 12369621
 }
