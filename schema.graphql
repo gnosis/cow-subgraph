@@ -22,9 +22,9 @@ type Token @entity {
   symbol: String!
   "Token decimals fetched by contract call"
   decimals: Int!
-  # derived price in ETH
+  "Derived price in ETH"
   derivedETH: BigDecimal!
-  # pools token is in that are allow listed for USD pricing
+  "Pools token is in that are allow listed for USD pricing"
   allowedPools: [UniswapPool!]!
 }
 
@@ -84,27 +84,27 @@ type Settlement @entity {
 # stores for USD calculations
 type Bundle @entity {
   id: ID!
-  # price of ETH in usd
+  "Price of ETH in usd"
   ethPriceUSD: BigDecimal!
 }
 
 type UniswapPool @entity {
-  # pool address
+  "Pool address"
   id: ID!
-  # token0
+  "Token0"
   token0: Token!
-  # token1
+  "Token1"
   token1: Token!
-  # in range liquidity
+  "In range liquidity"
   liquidity: BigInt!
-  # token0 per token1
+  "Token0 per token1"
   token0Price: BigDecimal!
-  # token1 per token0
+  "Token1 per token0"
   token1Price: BigDecimal!
-  # current tick
+  "Current tick"
   tick: BigInt
-  # total token 0 across all ticks
+  "Total token 0 across all ticks"
   totalValueLockedToken0: BigDecimal!
-  # total token 1 across all ticks
+  "Total token 1 across all ticks"
   totalValueLockedToken1: BigDecimal!
 }
