@@ -23,6 +23,7 @@ export namespace tokens {
       token.name = fetchTokenName(tokenAddress)
       token.symbol = fetchTokenSymbol(tokenAddress)
       token.derivedETH = ZERO_BD
+      token.derivedUSD = ZERO_BD
       token.allowedPools = []
 
     }

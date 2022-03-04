@@ -26,6 +26,8 @@ export function handleInitialize(event: Initialize): void {
   // update token prices
   token0.derivedETH = findEthPerToken(token0 as Token)
   token1.derivedETH = findEthPerToken(token1 as Token)
+  token0.derivedUSD = token0.derivedETH.times(bundle.ethPriceUSD)
+  token1.derivedUSD = token1.derivedETH.times(bundle.ethPriceUSD)
   token0.save()
   token1.save()
 }
@@ -100,8 +102,6 @@ export function handleSwap(event: SwapEvent): void {
   let token0 = Token.load(pool.token0)
   let token1 = Token.load(pool.token1)
 
-  let oldTick = pool.tick!
-
   // amounts - 0/1 are token deltas: can be positive or negative
   let amount0 = convertTokenToDecimal(event.params.amount0, BigInt.fromI32(token0.decimals))
   let amount1 = convertTokenToDecimal(event.params.amount1, BigInt.fromI32(token1.decimals))
@@ -133,6 +133,8 @@ export function handleSwap(event: SwapEvent): void {
   bundle.save()
   token0.derivedETH = findEthPerToken(token0 as Token)
   token1.derivedETH = findEthPerToken(token1 as Token)
+  token0.derivedUSD = token0.derivedETH.times(bundle.ethPriceUSD)
+  token1.derivedUSD = token1.derivedETH.times(bundle.ethPriceUSD)
 
   pool.save()
   token0.save()
