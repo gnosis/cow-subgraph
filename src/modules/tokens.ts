@@ -7,8 +7,6 @@ import { ERC20NameBytes } from '../../generated/Factory/ERC20NameBytes'
 import { StaticTokenDefinition } from '../utils/staticTokenDefinition'
 import { isNullEthValue } from '../utils'
 
-const DEFAULT_DECIMALS = 18
-
 export namespace tokens {
 
   export function getOrCreateToken(tokenAddress: Address, timestamp: BigInt): Token {

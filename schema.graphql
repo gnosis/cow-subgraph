@@ -85,6 +85,7 @@ type Settlement @entity {
 
 # stores for USD calculations
 type Bundle @entity {
+  "Singleton id 1 containing ethPriceUSD value"
   id: ID!
   "Price of ETH in usd"
   ethPriceUSD: BigDecimal!
