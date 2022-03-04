@@ -1,7 +1,7 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts"
 import { ERC20 } from "../../generated/GPV2Settlement/ERC20"
 import { Token } from "../../generated/schema"
-import { ZERO_BD } from "../utils/constants"
+import { ZERO_BD, ZERO_BI } from "../utils/constants"
 import { ERC20SymbolBytes } from '../../generated/Factory/ERC20SymbolBytes'
 import { ERC20NameBytes } from '../../generated/Factory/ERC20NameBytes'
 import { StaticTokenDefinition } from '../utils/staticTokenDefinition'
@@ -18,7 +18,6 @@ export namespace tokens {
     if (!token) {
       token = new Token(tokenId)
       token.address = tokenAddress
-      token.firstTradeTimestamp = timestamp
 
       token.decimals = fetchTokenDecimals(tokenAddress) as i32
       token.name = fetchTokenName(tokenAddress)
@@ -27,8 +26,9 @@ export namespace tokens {
       token.allowedPools = []
 
     }
-    // adding timestamp for token created by uniswap logic
-    if (!token.firstTradeTimestamp) {
+    // adding timestamp only if it's a trade from Cow
+    // trades from Uniswap will call this function with ZERO_BI value
+    if (!token.firstTradeTimestamp || timestamp != ZERO_BI) {
       token.firstTradeTimestamp = timestamp
     }
 
