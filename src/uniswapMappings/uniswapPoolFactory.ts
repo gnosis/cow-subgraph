@@ -4,8 +4,8 @@ import { ZERO_BI, ZERO_BD } from '../utils/constants'
 import { PoolCreated } from '../../generated/Factory/Factory'
 import { UniswapPool, Token, Bundle } from '../../generated/schema'
 import { Pool as PoolTemplate } from '../../generated/templates'
-import { fetchTokenSymbol, fetchTokenName, fetchTokenDecimals } from '../utils/token'
 import { log, Address } from '@graphprotocol/graph-ts'
+import { tokens } from '../modules'
 
 export function handlePoolCreated(event: PoolCreated): void {
   // temp fix
@@ -22,42 +22,13 @@ export function handlePoolCreated(event: PoolCreated): void {
   }
 
   let pool = new UniswapPool(event.params.pool.toHexString()) as UniswapPool
-  let token0 = Token.load(event.params.token0.toHexString())
-  let token1 = Token.load(event.params.token1.toHexString())
-
-  // fetch info if null
-  if (token0 === null) {
-    token0 = new Token(event.params.token0.toHexString())
-    token0.address = event.params.token0
-    token0.symbol = fetchTokenSymbol(event.params.token0)
-    token0.name = fetchTokenName(event.params.token0)
-    let decimals = fetchTokenDecimals(event.params.token0)
+  let token0 = tokens.getOrCreateToken(event.params.token0, ZERO_BI)
+  let token1 = tokens.getOrCreateToken(event.params.token1, ZERO_BI)
 
     // bail if we couldn't figure out the decimals
-    if (decimals === null) {
-      log.debug('mybug the decimal on token 0 was null', [])
-      return
-    }
-
-    token0.decimals = decimals.toI32()
-    token0.derivedETH = ZERO_BD
-    token0.allowedPools = []
-  }
-
-  if (token1 === null) {
-    token1 = new Token(event.params.token1.toHexString())
-    token1.address = event.params.token1
-    token1.symbol = fetchTokenSymbol(event.params.token1)
-    token1.name = fetchTokenName(event.params.token1)
-    let decimals = fetchTokenDecimals(event.params.token1)
-    // bail if we couldn't figure out the decimals
-    if (decimals === null) {
-      log.debug('mybug the decimal on token 0 was null', [])
-      return
-    }
-    token1.decimals = decimals.toI32()
-    token1.derivedETH = ZERO_BD
-    token1.allowedPools = []
+  if (token0.decimals == -1 || token1.decimals == -1) {
+    log.debug('mybug the decimal on some token was null', [])
+    return
   }
 
   // update white listed pools

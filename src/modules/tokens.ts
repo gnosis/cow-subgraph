@@ -19,7 +19,7 @@ export namespace tokens {
       token = new Token(tokenId)
       token.address = tokenAddress
 
-      token.decimals = fetchTokenDecimals(tokenAddress) as i32
+      token.decimals = fetchTokenDecimals(tokenAddress) 
       token.name = fetchTokenName(tokenAddress)
       token.symbol = fetchTokenSymbol(tokenAddress)
       token.derivedETH = ZERO_BD
@@ -31,8 +31,6 @@ export namespace tokens {
     if (!token.firstTradeTimestamp || timestamp != ZERO_BI) {
       token.firstTradeTimestamp = timestamp
     }
-
-    token.save()
 
     return token as Token
   }
@@ -93,10 +91,10 @@ export namespace tokens {
     return nameValue
   }
 
-  function fetchTokenDecimals(tokenAddress: Address): BigInt {
+  function fetchTokenDecimals(tokenAddress: Address): i32 {
     let contract = ERC20.bind(tokenAddress)
     // try types uint8 for decimals
-    let decimalValue = DEFAULT_DECIMALS
+    let decimalValue = -1
     let decimalResult = contract.try_decimals()
     if (!decimalResult.reverted) {
       decimalValue = decimalResult.value
@@ -104,11 +102,11 @@ export namespace tokens {
       // try with the static definition
       let staticTokenDefinition = StaticTokenDefinition.fromAddress(tokenAddress)
       if (staticTokenDefinition != null) {
-        return staticTokenDefinition.decimals
+        return staticTokenDefinition.decimals as i32
       }
     }
 
-    return BigInt.fromI32(decimalValue as i32)
+    return decimalValue as i32
   }
 
 }
