@@ -1,3 +1,10 @@
+# ADD TOTAL TOKENS
+# spread fees are expresed in sell token
+# write a how to query on a specific block
+
+
+
+
 type User @entity {
   "Trade event order owner"
   id: ID!
@@ -11,7 +18,11 @@ type User @entity {
   isSolver: Boolean
   ######################################################################################################################
   "solvedAmount" 
-  solvedAmount: BigDecimal
+  numberOfTrades: Int! # write a how to do it in the query or add the prop. 
+  solvedAmountEth: BigDecimal
+  solvedAmountUsd: BigDecimal
+  tradeAmountUsd: BigDecimal
+  tradeAmountEth: BigDecimal
 }
 
 type Token @entity {
@@ -28,16 +39,21 @@ type Token @entity {
   "Token decimals fetched by contract call"
   decimals: Int!
   ######################################################################################################################
-  amountHistory: [tokenTradingEvent!]! derivedFrom(field: "token")
+  amountHistory: [TokenTradingEvent!]! derivedFrom(field: "token")
+  numberOfTrades: Int! # write a how to do it in the query or add the prop. 
+  totalAmountTradedUsd: BigDecimal
+  totalAmountTradedEth: BigDecimal
 }
 
 ######################################################################################################################
-type tokenTradingEvent @entity {
+type TokenTradingEvent @entity {
   "kinda token-timestamp"
   id: ID!
   token: Token!
+  trade: Trade!
   timestamp: BigInt!
-  amountInEth: BigDecimal!
+  amountEth: BigDecimal!
+  amountUsd: BigDecimal!
 }
 
 type Order @entity {
@@ -83,8 +99,10 @@ type Trade @entity {
   "Order"
   order: Order!
   ######################################################################################################################
-  buyETHAmount: BigDecimal
-  sellETHAmount: BigDecimal
+  buyAmountETH: BigDecimal
+  sellAmountETH: BigDecimal
+  buyAmountUSD: BigDecimal
+  sellAmountUSD: BigDecimal
   # both should be the same or so.
 }
 
@@ -98,8 +116,6 @@ type Settlement @entity {
   "Collection of trades"
   trades: [Trade!] @derivedFrom(field: "settlement")
   ######################################################################################################################
-  # sum all trades amount
-  managedAmount: BigDecimal
   # add the solver
   solver: User
 }
