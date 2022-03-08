@@ -26,7 +26,7 @@ type Token @entity {
   derivedETH: BigDecimal!
   "Derived price in USD"
   derivedUSD: BigDecimal!
-  "Pools token is in that are allow listed for USD pricing"
+  "List of pools that can be used for price estimation"
   allowedPools: [UniswapPool!]!
 }
 
