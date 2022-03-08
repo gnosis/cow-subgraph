@@ -7,6 +7,11 @@ type User @entity {
   firstTradeTimestamp: BigInt!
   "List of orders placed by this user"
   ordersPlaced: [Order!]! @derivedFrom(field: "owner")
+  "isSolver"
+  isSolver: Boolean
+  ######################################################################################################################
+  "solvedAmount" 
+  solvedAmount: BigDecimal
 }
 
 type Token @entity {
@@ -22,6 +27,17 @@ type Token @entity {
   symbol: String!
   "Token decimals fetched by contract call"
   decimals: Int!
+  ######################################################################################################################
+  amountHistory: [tokenTradingEvent!]! derivedFrom(field: "token")
+}
+
+######################################################################################################################
+type tokenTradingEvent @entity {
+  "kinda token-timestamp"
+  id: ID!
+  token: Token!
+  timestamp: BigInt!
+  amountInEth: BigDecimal!
 }
 
 type Order @entity {
@@ -66,6 +82,10 @@ type Trade @entity {
   buyToken: Token!
   "Order"
   order: Order!
+  ######################################################################################################################
+  buyETHAmount: BigDecimal
+  sellETHAmount: BigDecimal
+  # both should be the same or so.
 }
 
 type Settlement @entity {
@@ -77,4 +97,9 @@ type Settlement @entity {
   firstTradeTimestamp: BigInt!
   "Collection of trades"
   trades: [Trade!] @derivedFrom(field: "settlement")
+  ######################################################################################################################
+  # sum all trades amount
+  managedAmount: BigDecimal
+  # add the solver
+  solver: User
 }
