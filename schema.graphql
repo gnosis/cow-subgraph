@@ -3,7 +3,144 @@
 # write a how to query on a specific block
 
 
+######################################################################################################################
+type CowSwap @entity {
+  "Singleton #1"
+  id: ID!
+  "Total token ever traded"
+  tokensTotal: BigInt!
+  "Total orders placed"
+  ordersTotal: BigInt!
+  "Total unique addresses on cowsap"
+  usersTotal: BigInt!
+  "Total different settlements"
+  settlementTotal: BigInt!
+  "Total traded amount in USD"
+  totalTradedAmountUsd: BigDecimal
+  "Total traded amount in ETH"
+  totalTradedAmountEth: BigDecimal
+  "Total fee amount in USD"
+  totalFeeAmountUsd: BigDecimal
+  "Total fee amount in Eth"
+  totalFeeAmountEth: BigDecimal
+}
 
+######################################################################################################################
+type CowSwapDayData @entity {
+  "Day timestamp"
+  id: ID!
+  "Start day timestamp"
+  timestamp: BigInt!
+  "Total token traded that day"
+  tokensTotal: BigInt!
+  "Total orders placed that day"
+  ordersTotal: BigInt!
+  "Total different settlements that day"
+  settlementTotal: BigInt!
+  "Total traded amount in USD for the day"
+  totalTradedAmountUsd: BigDecimal
+  "Total traded amount in ETH for the day"
+  totalTradedAmountEth: BigDecimal
+  "Total fee amount in USD for the day"
+  totalFeeAmountUsd: BigDecimal
+  "Total fee amount in Eth for the day"
+  totalFeeAmountEth: BigDecimal
+}
+
+######################################################################################################################
+type CowSwapHourData @entity {
+  "Hour timestamp"
+  id: ID!
+  "Start hour timestamp"
+  timestamp: BigInt!
+  "Total token traded that hour"
+  tokensTotal: BigInt!
+  "Total orders placed that hour"
+  ordersTotal: BigInt!
+  "Total different settlements that hour"
+  settlementTotal: BigInt!
+  "Total traded amount in USD for the hour"
+  totalTradedAmountUsd: BigDecimal
+  "Total traded amount in ETH for the hour"
+  totalTradedAmountEth: BigDecimal
+  "Total fee amount in USD for the hour"
+  totalFeeAmountUsd: BigDecimal
+  "Total fee amount in Eth for the hour"
+  totalFeeAmountEth: BigDecimal
+}
+
+######################################################################################################################
+# It makes sense to add symbol, decimals and name? I mean for making a single query to fetch that data
+type TokenDayData @entity {
+  "TokenAddress + timestamp day"
+  id: ID!
+  "Token address"
+  address: Bytes!
+  "Start day timestamp"
+  timestamp: BigInt!
+  "Total amount traded that day in USD"
+  totalAmountTradedUsd: BigDecimal!
+  "Total amount traded that day in ETH"
+  totalAmountTradedEth: BigDecimal!
+  "Number of trades that day"
+  totalTrades: BigInt!
+}
+
+######################################################################################################################
+type TokenHourData @entity {
+  "TokenAddress + timestamp hour"
+  id: ID!
+  "Token address"
+  address: Bytes!
+  "Start hour timestamp"
+  timestamp: BigInt!
+  "Total amount traded that hour in USD"
+  totalAmountTradedUsd: BigDecimal!
+  "Total amount traded that hour in ETH"
+  totalAmountTradedEth: BigDecimal!
+  "Number of trades that hour"
+  totalTrades: BigInt!
+}
+
+######################################################################################################################
+type TradeDayData @entity {
+  "Day timestamp"
+  id: ID!
+  "Day timestamp"
+  timestamp: BigInt!
+  "Trade's fee amount for that day"
+  feeAmount: BigInt! 
+  "Trade event buyAmount that day"
+  buyAmount: BigInt!
+  "Trade event sellAmount that day"
+  sellAmount: BigInt!
+  "Traded tokens that day"
+  tokens: [Token!]!
+  buyAmountETH: BigDecimal
+  sellAmountETH: BigDecimal
+  buyAmountUSD: BigDecimal
+  sellAmountUSD: BigDecimal
+}
+
+######################################################################################################################
+type TradeHourData @entity {
+  "Day timestamp"
+  id: ID!
+  "Day timestamp"
+  timestamp: BigInt!
+  "Trade's fee amount for that day"
+  feeAmount: BigInt! 
+  "Trade event buyAmount that day"
+  buyAmount: BigInt!
+  "Trade event sellAmount that day"
+  sellAmount: BigInt!
+  "Traded tokens that day"
+  tokens: [Token!]!
+  buyAmountETH: BigDecimal
+  sellAmountETH: BigDecimal
+  buyAmountUSD: BigDecimal
+  sellAmountUSD: BigDecimal
+}
 
 type User @entity {
   "Trade event order owner"
