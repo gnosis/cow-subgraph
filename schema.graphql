@@ -110,10 +110,6 @@ type TradeDayData @entity {
   timestamp: BigInt!
   "Trade's fee amount for that day"
   feeAmount: BigInt! 
-  "Trade event buyAmount that day"
-  buyAmount: BigInt!
-  "Trade event sellAmount that day"
-  sellAmount: BigInt!
   "Traded tokens that day"
   tokens: [Token!]!
   buyAmountETH: BigDecimal
@@ -130,10 +126,6 @@ type TradeHourData @entity {
   timestamp: BigInt!
   "Trade's fee amount for that day"
   feeAmount: BigInt! 
-  "Trade event buyAmount that day"
-  buyAmount: BigInt!
-  "Trade event sellAmount that day"
-  sellAmount: BigInt!
   "Traded tokens that day"
   tokens: [Token!]!
   buyAmountETH: BigDecimal
