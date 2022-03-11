@@ -32,7 +32,7 @@ type DailyTotals @entity {
   "Start day timestamp"
   timestamp: BigInt!
   "Total number of tokens traded"
-  tokens: BigInt!
+  totalTokens: BigInt!
   "Total number of orders placed"
   orders: BigInt!
   "Total number of batches settled"
@@ -56,7 +56,7 @@ type HourlyTotals @entity {
   "Start hour timestamp"
   timestamp: BigInt!
   "Total number of tokens traded"
-  tokens: BigInt!
+  totalTokens: BigInt!
   "Total number of orders placed"
   orders: BigInt!
   "Total number of batches settled"
@@ -82,6 +82,8 @@ type TokenDailyTotals @entity {
   address: Bytes!
   "Start day timestamp"
   timestamp: BigInt!
+  "Total volume traded that day in token"
+  totalVolume: BigDecimal!
   "Total amount traded that day in USD"
   totalVolumeUsd: BigDecimal!
   "Total amount traded that day in ETH"
@@ -236,4 +238,8 @@ type Settlement @entity {
   # add the solver
   "User who solved the settlement"
   solver: User
+  "Transaction cost in Eth"
+  txCostEth: BigDecimal!
+  "Transaction cost in USD"
+  txCostUsd: BigDecimal!
 }
