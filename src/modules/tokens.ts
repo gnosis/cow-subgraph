@@ -1,5 +1,5 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts"
-import { ERC20 } from "../../generated/GPV2Settlement/ERC20"
+import { ERC20 } from "../../generated/Factory/ERC20"
 import { Token } from "../../generated/schema"
 import { ZERO_BD, ZERO_BI } from "../utils/constants"
 import { ERC20SymbolBytes } from '../../generated/Factory/ERC20SymbolBytes'

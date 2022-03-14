@@ -25,8 +25,6 @@ dataSources:
       abis:
         - name: GPV2Settlement
           file: ./abis/GPV2Settlement.json
-        - name: ERC20
-          file: ./abis/ERC20.json
       eventHandlers:
         - event: Interaction(indexed address,uint256,bytes4)
           handler: handleInteraction
@@ -59,15 +57,15 @@ dataSources:
         - Token
       abis:
         - name: Factory
-          file: ./abis/factory.json
+          file: ./abis/Uv3/factory.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: ./abis/ERC20/ERC20.json
         - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
+          file: ./abis/ERC20/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
+          file: ./abis/ERC20/ERC20NameBytes.json
         - name: Pool
-          file: ./abis/pool.json
+          file: ./abis/Uv3/pool.json
       eventHandlers:
         - event: PoolCreated(indexed address,indexed address,indexed uint24,int24,address)
           handler: handlePoolCreated
@@ -87,11 +85,9 @@ templates:
         - Token
       abis:
         - name: Pool
-          file: ./abis/pool.json
+          file: ./abis/Uv3/pool.json
         - name: Factory
-          file: ./abis/factory.json
-        - name: ERC20
-          file: ./abis/ERC20.json
+          file: ./abis/Uv3/factory.json
       eventHandlers:
         - event: Initialize(uint160,int24)
           handler: handleInitialize
