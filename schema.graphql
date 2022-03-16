@@ -74,12 +74,11 @@ type HourlyTotals @entity {
 }
 
 ######################################################################################################################
-# It makes sense to add symbol, decimals and name? I mean for making a single query to fetch that data
 type TokenDailyTotals @entity {
   "TokenAddress + timestamp day"
   id: ID!
   "Token address"
-  address: Bytes!
+  token: Token!
   "Start day timestamp"
   timestamp: BigInt!
   "Total volume traded that day in token"
@@ -90,6 +89,16 @@ type TokenDailyTotals @entity {
   totalVolumeEth: BigDecimal!
   "Number of trades that day"
   totalTrades: BigInt!
+  "First trade price"
+  openPrice: BigDecimal!
+  "Last trade price"
+  closePrice: BigDecimal!
+  "Higher trade price"
+  higherPrice: BigDecimal!
+  "Lower trade price"
+  lowerPrice: BigDecimal!
+  "Average trade price"
+  averagePrice: BigDecimal!
 }
 
 ######################################################################################################################
@@ -97,7 +106,7 @@ type TokenHourlyTotals @entity {
   "TokenAddress + timestamp hour"
   id: ID!
   "Token address"
-  address: Bytes!
+  token: Token!
   "Start hour timestamp"
   timestamp: BigInt!
   "Total amount traded that hour in USD"
@@ -106,6 +115,16 @@ type TokenHourlyTotals @entity {
   totalVolumeEth: BigDecimal!
   "Number of trades that hour"
   totalTrades: BigInt!
+  "First trade price"
+  openPrice: BigDecimal!
+  "Last trade price"
+  closePrice: BigDecimal!
+  "Higher trade price"
+  higherPrice: BigDecimal!
+  "Lower trade price"
+  lowerPrice: BigDecimal!
+  "Average trade price"
+  averagePrice: BigDecimal!
 }
 
 type User @entity {
