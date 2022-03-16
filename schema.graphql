@@ -167,6 +167,12 @@ type Token @entity {
   "Token decimals fetched by contract call"
   decimals: Int!
   ######################################################################################################################
+  #data taken from v2 integration PR
+  "Estimated token price in USD"
+  priceUSD: BigDecimal!
+  "Estimated token price in ETH"
+  priceETH: BigDecimal!
+  ######################################################################################################################
   "History of trading for this token"
   history: [TokenTradingEvent!]! derivedFrom(field: "token")
   "Total trades"
