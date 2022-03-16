@@ -109,6 +109,8 @@ type TokenHourlyTotals @entity {
   token: Token!
   "Start hour timestamp"
   timestamp: BigInt!
+  "Total volume traded that day in token"
+  totalVolume: BigDecimal!
   "Total amount traded that hour in USD"
   totalVolumeUsd: BigDecimal!
   "Total amount traded that hour in ETH"
