@@ -4,7 +4,7 @@
 
 
 ######################################################################################################################
-type Totals @entity {
+type Total @entity {
   "This is a singleton entity to contain accumulators for all values. Id will be always 1"
   id: ID!
   "Total number of tokens traded"
@@ -26,7 +26,7 @@ type Totals @entity {
 }
 
 ######################################################################################################################
-type DailyTotals @entity {
+type DailyTotal @entity {
   "Day timestamp"
   id: ID!
   "Start day timestamp"
@@ -50,7 +50,7 @@ type DailyTotals @entity {
 }
 
 ######################################################################################################################
-type HourlyTotals @entity {
+type HourlyTotal @entity {
   "Hour timestamp"
   id: ID!
   "Start hour timestamp"
@@ -74,7 +74,7 @@ type HourlyTotals @entity {
 }
 
 ######################################################################################################################
-type TokenDailyTotals @entity {
+type TokenDailyTotal @entity {
   "TokenAddress + timestamp day"
   id: ID!
   "Token address"
@@ -102,7 +102,7 @@ type TokenDailyTotals @entity {
 }
 
 ######################################################################################################################
-type TokenHourlyTotals @entity {
+type TokenHourlyTotal @entity {
   "TokenAddress + timestamp hour"
   id: ID!
   "Token address"
@@ -174,7 +174,7 @@ type Token @entity {
   priceETH: BigDecimal!
   ######################################################################################################################
   "History of trading for this token"
-  history: [TokenTradingEvent!]! derivedFrom(field: "token")
+  history: [TokenTradingEvent!]! #@derivedFrom(field: "token")
   "Total trades"
   numberOfTrades: Int! # write a how to do it in the query or add the prop. 
   "Total volume in Usd"

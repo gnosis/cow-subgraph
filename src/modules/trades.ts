@@ -1,6 +1,7 @@
+import { BigDecimal, BigInt } from "@graphprotocol/graph-ts"
 import { Trade } from "../../generated/GPV2Settlement/GPV2Settlement"
 
-import { Token, Trade as TradeEntity } from "../../generated/schema"
+import { Token, TokenTradingEvent, Trade as TradeEntity } from "../../generated/schema"
 import { settlements } from "./"
 
 export namespace trades {
@@ -18,15 +19,22 @@ export namespace trades {
         let txGasLimit = event.transaction.gasLimit
         let feeAmount = event.params.feeAmount
 
-
-        settlements.getOrCreateSettlement(txHash, timestamp, feeAmount)
+        // check if event.address is the solver
+        settlements.getOrCreateSettlement(txHash, timestamp, feeAmount, event.address)
 
 
         let trade = TradeEntity.load(tradeId)
 
         if (!trade) {
             trade = new TradeEntity(tradeId)
+            trade.buyAmountEth = BigDecimal.zero()
+            trade.buyAmountUsd = BigDecimal.zero()
+            trade.sellAmountEth = BigDecimal.zero()
+            trade.sellAmountUsd = BigDecimal.zero()
         }
+
+        getOrCreateTokenTradingEvent(buyToken.id, tradeId, timestamp)
+        getOrCreateTokenTradingEvent(sellToken.id, tradeId, timestamp)
 
         trade.timestamp = timestamp
         trade.txHash = txHash
@@ -40,6 +48,19 @@ export namespace trades {
         trade.gasLimit = txGasLimit
         trade.feeAmount = feeAmount
         trade.save()
+    }
+
+    function getOrCreateTokenTradingEvent(token: string, trade: string, timestamp: BigInt): void {
+        let timestampString = timestamp.toString()
+        let id = token + "-" + trade + "-" + timestampString
+        let tokenTradingEvent = new TokenTradingEvent(id) 
+        tokenTradingEvent.token = token
+        tokenTradingEvent.trade = trade
+        tokenTradingEvent.timestamp = timestamp
+        tokenTradingEvent.amountEth = BigDecimal.zero()
+        tokenTradingEvent.amountUsd = BigDecimal.zero()
+
+        tokenTradingEvent.save()
     }
 
 }
