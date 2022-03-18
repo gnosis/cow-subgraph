@@ -205,7 +205,7 @@ type Order @entity {
   "Trade's owner or presign User"
   owner: User
   "block's timestamp on trade event"
-  tradesTimestamp: BigInt
+  tradeTimestamp: BigInt
   "block's timestamp on invalidate event"
   invalidateTimestamp: BigInt
   "block's timestamp on presign event"

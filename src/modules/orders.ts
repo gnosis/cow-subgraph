@@ -32,7 +32,7 @@ export namespace orders {
     export function getOrCreateOrderForTrade(orderId: string, timestamp: BigInt, owner: string): Order {
 
         let order = getOrCreateOrder(orderId, owner)
-        order.tradesTimestamp = timestamp
+        order.tradeTimestamp = timestamp
 
         return order as Order
     }
