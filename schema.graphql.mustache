@@ -27,7 +27,7 @@ type Token @entity {
   "Derived price in USD" 
   priceUsd: BigDecimal!
   "Pools token is in that are allow listed for USD pricing"
-  allowedPools: [BigInt!]!
+  allowedPools: [{{allowedPoolsType}}!]!
 }
 
 type Order @entity {
@@ -83,3 +83,33 @@ type Settlement @entity {
   trades: [Trade!] @derivedFrom(field: "settlement")
 }
 
+{{#uniV3Factory}}
+# stores for USD calculations
+type Bundle @entity {
+  "Singleton #1"
+  id: ID!
+  "Price of ETH in usd"
+  ethPriceUSD: BigDecimal!
+}
+
+type UniswapPool @entity {
+  "Pool address"
+  id: ID!
+  "Token0"
+  token0: Token!
+  "Token1"
+  token1: Token!
+  "In range liquidity"
+  liquidity: BigInt!
+  "Token0 per token1"
+  token0Price: BigDecimal!
+  "Token1 per token0"
+  token1Price: BigDecimal!
+  "Current tick"
+  tick: BigInt
+  "Total token 0 across all ticks"
+  totalValueLockedToken0: BigDecimal!
+  "Total token 1 across all ticks"
+  totalValueLockedToken1: BigDecimal!
+}
+{{/uniV3Factory}}
