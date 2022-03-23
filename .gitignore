@@ -3,3 +3,5 @@ build/
 *.log
 generated/
 node_modules/
+subgraph.yaml
+schema.graphql
