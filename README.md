@@ -33,6 +33,10 @@ Notice order entity has 3 different timestamps. Each timestamp will be filled de
 - On invalidate order event
 - On pre sign event
 
+## Token prices notes
+
+Both prices `priceETH` and `priceUSD` is being estimated using UniswapV2 contracts on each Cow trade. 
+
 ## Setup of your own test subgraph
 
 *Requisites:* You must have access to a console and have yarn installed. More info about [yarn](https://classic.yarnpkg.com/lang/en/docs/)
