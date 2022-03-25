@@ -7,6 +7,7 @@ export let ONE_BI = BigInt.fromI32(1)
 export let ZERO_ADDRESS = Address.zero()
 export let ZERO_BD = BigDecimal.fromString('0')
 export let ONE_BD = BigDecimal.fromString('1')
+export let MINUS_ONE_BD = ZERO_BD.minus(ONE_BD)
 
 export let EMPTY_RESERVES_RESULT = new UniswapV2Pair__getReservesResult(ZERO_BI, ZERO_BI, ZERO_BI)
 

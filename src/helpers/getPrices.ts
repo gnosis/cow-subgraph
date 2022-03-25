@@ -13,7 +13,8 @@ import {
     UNISWAP_FACTORY,
     STABLECOIN_ADDRESS,
     WETH_ADDRESS,
-    EMPTY_RESERVES_RESULT
+    EMPTY_RESERVES_RESULT,
+    MINUS_ONE_BD
 } from "./constants"
 import { tokens } from "../modules"
 
@@ -51,7 +52,7 @@ function getUniswapPricesForPair(token0: Address, token1: Address, isEthPriceCal
         reserves.value1 == ZERO_BI ||
         pairToken0 == ZERO_ADDRESS ||
         pairToken1 == ZERO_ADDRESS) {
-        return ONE_BD
+        return MINUS_ONE_BD
     }
 
     // this call inverts prices depending on token1 is weth or not (find a better way)
@@ -69,7 +70,12 @@ export function getPrices(token: Address): Map<string, BigDecimal> {
     let prices = new Map<string, BigDecimal>()
     if (token.toHex() == stablecoin.toHex()) {
         prices.set("usd", ONE_BD)
-        prices.set("eth", ONE_BD.div(getPrices(weth).get("eth")))
+        let priceWethEth = getPrices(weth).get("eth")
+        if (priceWethEth == MINUS_ONE_BD) {
+            prices.set("eth", MINUS_ONE_BD)
+        } else {
+            prices.set("eth", ONE_BD.div(priceWethEth))
+        }
         return prices
     }
 
@@ -81,6 +87,11 @@ export function getPrices(token: Address): Map<string, BigDecimal> {
 
     let priceEth = getUniswapPricesForPair(token, weth, true)
     prices.set("eth", priceEth)
-    prices.set("usd", priceEth.times(getPrices(weth).get("usd")))
+    let priceWethUsd = getPrices(weth).get("usd")
+    if (priceWethUsd == MINUS_ONE_BD) {
+        prices.set("usd", MINUS_ONE_BD)
+    } else {
+        prices.set("usd", priceEth.times(getPrices(weth).get("usd")))
+    }
     return prices
 }

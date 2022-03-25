@@ -5,10 +5,11 @@ import {
   Settlement,
   Trade
 } from "../generated/GPV2Settlement/GPV2Settlement"
+import { MINUS_ONE_BD } from "./helpers/constants"
 import { getPrices } from "./helpers/getPrices"
 import { tokens, trades, orders, users } from "./modules"
 
-export function handleInteraction(event: Interaction): void {}
+export function handleInteraction(event: Interaction): void { }
 
 export function handleOrderInvalidated(event: OrderInvalidated): void {
 
@@ -35,8 +36,7 @@ export function handlePreSignature(event: PreSignature): void {
   users.getOrCreateUser(timestamp, ownerAddress)
 }
 
-export function handleSettlement(event: Settlement): void {}
-
+export function handleSettlement(event: Settlement): void { }
 
 export function handleTrade(event: Trade): void {
   let orderId = event.params.orderUid.toHexString()
@@ -55,21 +55,27 @@ export function handleTrade(event: Trade): void {
   let tokenCurrentSellAmount = sellToken.totalVolume
   let tokenCurrentBuyAmount = buyToken.totalVolume
 
-  sellToken.totalVolume =  tokenCurrentSellAmount.plus(sellAmount)
-  buyToken.totalVolume =  tokenCurrentBuyAmount.plus(buyAmount)
+  sellToken.totalVolume = tokenCurrentSellAmount.plus(sellAmount)
+  buyToken.totalVolume = tokenCurrentBuyAmount.plus(buyAmount)
 
   trades.getOrCreateTrade(event, buyToken, sellToken)
 
   let sellTokenPrices = getPrices(sellTokenAddress)
   let buyTokenPrices = getPrices(buyTokenAddress)
-  sellToken.priceUSD = sellTokenPrices.get("usd")
-  buyToken.priceUSD = buyTokenPrices.get("usd")
-  sellToken.priceETH = sellTokenPrices.get("eth")
-  buyToken.priceETH = buyTokenPrices.get("eth")
+  if (sellTokenPrices.get("usd") != MINUS_ONE_BD &&
+    sellTokenPrices.get("eth") != MINUS_ONE_BD) {
+    sellToken.priceUsd = sellTokenPrices.get("usd")
+    sellToken.priceEth = sellTokenPrices.get("eth")
+  }
+  if (buyTokenPrices.get("usd") != MINUS_ONE_BD &&
+    buyTokenPrices.get("eth") != MINUS_ONE_BD) {
+    buyToken.priceUsd = buyTokenPrices.get("usd")
+    buyToken.priceEth = buyTokenPrices.get("eth")
+  }
 
   sellToken.save()
   buyToken.save()
- 
+
   let order = orders.getOrCreateOrderForTrade(orderId, timestamp, owner)
 
   sellToken.save()

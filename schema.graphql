@@ -27,9 +27,9 @@ type Token @entity {
   "Total volume managed in CowSwap"
   totalVolume: BigInt!
   "Estimated token price in USD"
-  priceUSD: BigDecimal!
+  priceUsd: BigDecimal
   "Estimated token price in ETH"
-  priceETH: BigDecimal!
+  priceEth: BigDecimal
 }
 
 type Order @entity {
