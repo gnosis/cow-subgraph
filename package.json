@@ -14,13 +14,13 @@
     "prepare:rinkeby": "yarn prepare:rinkebyyaml && yarn prepare:rinkebyschema",
     "prepare:gc": "yarn prepare:gcyaml && yarn prepare:gcschema",
     "deploy": "yarn deploy:mainnet",
-    "//deploy:mainnet": "yarn prepare:mainnet && yarn codegen && graph deploy gnosis/cow --node https://api.thegraph.com/deploy/",
-    "deploy:mainnet": "yarn prepare:mainnet && yarn codegen && graph deploy gabrielcamba/cow-prices-mainnet --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/",
-    "//deploy:rinkeby": "yarn prepare:rinkeby && yarn codegen && graph deploy gnosis/cow-rinkeby --node https://api.thegraph.com/deploy/",
-    "deploy:rinkeby": "yarn prepare:rinkeby && yarn codegen && graph deploy gabrielcamba/cow-prices-rinkeby --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/",
-    "//deploy:gc": "yarn prepare:gc && yarn codegen && graph deploy gnosis/cow-gc --node https://api.thegraph.com/deploy/",
-    "deploy:gc": "yarn prepare:gc && yarn codegen && graph deploy gabrielcamba/cow-prices-gc --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/",
-    "deploy:dev": "yarn prepare:<Network> && yarn codegen && graph <YourGithubUser/YourSubgraph> --node https://api.thegraph.com/deploy/"
+    "deploy:mainnet": "yarn prepare:mainnet && yarn codegen && graph deploy cowprotocol/cow --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/",
+    "//deploy:mainnet": "yarn prepare:mainnet && yarn codegen && graph deploy gabrielcamba/cow-prices-mainnet --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/",
+    "deploy:rinkeby": "yarn prepare:rinkeby && yarn codegen && graph deploy cowprotocol/cow-rinkeby --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/",
+    "//deploy:rinkeby": "yarn prepare:rinkeby && yarn codegen && graph deploy gabrielcamba/cow-prices-rinkeby --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/",
+    "deploy:gc": "yarn prepare:gc && yarn codegen && graph deploy cowprotocol/cow-gc --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/",
+    "//deploy:gc": "yarn prepare:gc && yarn codegen && graph deploy gabrielcamba/cow-prices-gc --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/",
+    "deploy:dev": "yarn prepare:<Network> && yarn codegen && graph deploy <YourGithubUser/YourSubgraph> --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.20.0",
